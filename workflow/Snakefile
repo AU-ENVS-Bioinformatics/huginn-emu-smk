@@ -37,15 +37,8 @@ rule renamed:
         expand(f"results/renamed/{{name}}.fastq", name=samples["sample_name"].values),
     log:
         "logs/renamed.log",
-    run:
-        with open(log[0], "w") as f:
-            sys.stderr = sys.stdout = f
-            for src, dest in zip(input, output):
-                src, dest = Path(src).absolute(), Path(dest).absolute()
-                dest.parent.mkdir(parents=True, exist_ok=True)
-                print(src)
-                print(dest)
-                dest.symlink_to(src)
+    script:
+        "scripts/rename.py"
 
 
 rule emu_abundance:
