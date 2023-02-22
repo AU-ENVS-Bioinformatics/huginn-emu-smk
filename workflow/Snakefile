@@ -60,7 +60,7 @@ rule emu_abundance:
         "logs/emu_abundance_{name}.log",
     conda:
         "envs/emu.yaml"
-    threads: workflow.cores
+    threads: max([workflow.cores, 63])
     shell:
         "emu abundance {params.extra} "
         "--output-dir results/abundances --db {params.db} --threads {threads} "

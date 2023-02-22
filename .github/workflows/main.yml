@@ -29,7 +29,7 @@ jobs:
       with:
         directory: .
         snakefile: workflow/Snakefile
-        args: "--lint"
+        args: "--lint --config reads_dir=.tests/ metadata_tbl=.tests/metadata.csv"
 
   Testing:
     runs-on: ubuntu-latest
