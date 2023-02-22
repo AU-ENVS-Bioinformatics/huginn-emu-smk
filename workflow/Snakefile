@@ -20,14 +20,12 @@ rule combine_abundances:
         ),
     output:
         "results/combined_rel-abundance.tsv",
+    conda:
+        "envs/jupyter.yaml"
     log:
-        "logs/combined_rel-abundance.log",
-    run:
-        dfs = [pd.read_table(infile) for infile in input]
-        names = samples["sample_name"].values
-        df = pd.concat(dfs, keys=names)
-        df = df.reset_index(level=1, drop=True).rename_axis("sample_name").reset_index()
-        df.to_csv(str(output), sep="\t")
+        notebook="logs/combined_rel-abundance.ipynb"
+    notebook:
+        "notebooks/combine_abundances.py.ipynb"
 
 
 rule renamed:
@@ -53,7 +51,7 @@ rule emu_abundance:
         "logs/emu_abundance_{name}.log",
     conda:
         "envs/emu.yaml"
-    threads: max([workflow.cores, 63])
+    threads: min([workflow.cores, 50])
     shell:
         "emu abundance {params.extra} "
         "--output-dir results/abundances --db {params.db} --threads {threads} "
