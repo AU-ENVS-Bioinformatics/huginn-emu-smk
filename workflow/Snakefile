@@ -1,3 +1,68 @@
-rule all:
+import pandas as pd
+import sys
+
+
+configfile: "config/config.yaml"
+
+
+indir = config.get("reads_dir", "porechopped/")
+samples = pd.read_csv(config.get("metadata_tbl"))
+
+
+include: "common.smk"
+
+
+rule combine_abundances:
+    input:
+        expand(
+            "results/abundances/{name}_rel-abundance.tsv",
+            name=samples["sample_name"].values,
+        ),
+    output:
+        "results/combined_rel-abundance.tsv",
+    log:
+        "logs/combined_rel-abundance.log",
+    run:
+        dfs = [pd.read_table(infile) for infile in input]
+        names = samples["sample_name"].values
+        df = pd.concat(dfs, keys=names)
+        df = df.reset_index(level=1, drop=True).rename_axis("sample_name").reset_index()
+        df.to_csv(str(output), sep="\t")
+
+
+rule renamed:
+    input:
+        expand(f"{indir}{{ID}}.fastq", ID=samples["sample_id"].values),
+    output:
+        expand(f"results/renamed/{{name}}.fastq", name=samples["sample_name"].values),
+    log:
+        "logs/renamed.log",
+    run:
+        with open(log[0], "w") as f:
+            sys.stderr = sys.stdout = f
+            for src, dest in zip(input, output):
+                src, dest = Path(src).absolute(), Path(dest).absolute()
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                print(src)
+                print(dest)
+                dest.symlink_to(src)
+
+
+rule emu_abundance:
+    input:
+        "results/renamed/{name}.fastq",
+    output:
+        "results/abundances/{name}_rel-abundance.tsv",
+    params:
+        extra=" ".join(config.get("emu_abundance", "")),
+        db=config.get("emu_database"),
+    log:
+        "logs/emu_abundance_{name}.log",
+    conda:
+        "envs/emu.yaml"
+    threads: workflow.cores
     shell:
-        "echo hello"
+        "emu abundance {params.extra} "
+        "--output-dir results/abundances --db {params.db} --threads {threads} "
+        "{input} "
+        ">> {log} 2>&1"
