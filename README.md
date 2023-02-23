@@ -9,3 +9,14 @@ A Snakemake workflow for running [EMU](https://gitlab.com/treangenlab/emu).
 
 ## Usage
 
+First, prepare a metadata csv file. You can use this as an [example](.tests/metadata.csv). It can have any arbitrary column, but it needs to have two columns: sample_id,sample_name for identifying the filename and the sample name. Again, see the [tests directory](.tests) for an example. 
+
+Then, edit the [configuration file](config/config.yaml) so it fits your case. You can [read more here](config/README.md).
+
+Finally,
+
+```bash
+snakemake --use-conda -n
+snakemake --use-conda -c100
+```
+

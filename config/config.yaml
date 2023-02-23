@@ -1,6 +1,6 @@
-reads_dir: "porechopped/"
-metadata_tbl: "metadata.csv"
-emu_database: "/data_2/than/EMU_db/"
+reads_dir: ""
+metadata_tbl: ""
+emu_database: ""
 
 # emu_abundance:
 #   - "--min-abundance 5"
