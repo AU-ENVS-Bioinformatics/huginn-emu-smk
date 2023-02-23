@@ -33,6 +33,8 @@ rule renamed:
         expand(f"{indir}{{ID}}.fastq", ID=samples["sample_id"].values),
     output:
         expand(f"results/renamed/{{name}}.fastq", name=samples["sample_name"].values),
+    conda:
+        "envs/jupyter.yaml"
     log:
         "logs/renamed.log",
     script:
