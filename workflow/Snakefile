@@ -11,6 +11,17 @@ samples = pd.read_csv(config.get("metadata_tbl"))
 
 include: "common.smk"
 
+rule edit_abundances:
+    input:
+        "results/abundances/emu-combined-tax_id.tsv",
+    output:
+        "results/emu-combined-tax_id_preproc.tsv",
+    conda:
+        "envs/jupyter.yaml"
+    log:
+        notebook="logs/combined_rel-abundance.ipynb"
+    notebook:
+        "notebooks/combine_abundances.py.ipynb"
 
 rule combine_abundances:
     input:
@@ -19,14 +30,13 @@ rule combine_abundances:
             name=samples["sample_name"].values,
         ),
     output:
-        "results/combined_rel-abundance.tsv",
-    conda:
-        "envs/jupyter.yaml"
+        "results/abundances/emu-combined-tax_id.tsv",
     log:
-        notebook="logs/combined_rel-abundance.ipynb"
-    notebook:
-        "notebooks/combine_abundances.py.ipynb"
-
+        "logs/combine_emu.log"
+    conda:
+        "envs/emu.yaml"
+    shell:
+        "emu combine-outputs results/abundances/ tax_id > {log}" 
 
 rule renamed:
     input:
