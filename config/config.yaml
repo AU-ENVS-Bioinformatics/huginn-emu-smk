@@ -1,6 +1,11 @@
-reads_dir: ""
-metadata_tbl: ""
-emu_database: ""
+# Directory with the reads in .fastq
+reads_dir: "porechopped/"
+# Metadata csv file with at least the columns sample_id,sample_name
+metadata_tbl: "metadata.csv"
+# Emu database directory, it should contain a taxonomy.tsv, 
+# a taxonomy_split.tsv and a species_taxid.fasta
+emu_database: "/data_2/than/EMU_db/"
 
+# Add here any optional flag to emu
 # emu_abundance:
 #   - "--min-abundance 5"
