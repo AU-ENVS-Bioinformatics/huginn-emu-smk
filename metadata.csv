@@ -1,3 +1,5 @@
 sample_id,sample_name,feature_1,feature_2
 BC01,sample1,foo,2
 BC02,sample2,bar,3.5 
+BC03,sample3,bar,3.5 
+BC04,sample3,bar,3.5 

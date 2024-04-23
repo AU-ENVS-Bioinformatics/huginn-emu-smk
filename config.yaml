@@ -7,7 +7,7 @@ read_extension: ".fastq"
 # CSV file with the metadata. The first column must contain the sample names (that is, the filename without the extension)
 metadata: "metadata.csv"
 # EMU database directory
-database: "database"
+database: "/Databases/emu-prebuilt/silva_database"
 # Number of threads per sample. It will determine the parallelization of the pipeline
 threads_per_sample: 5
 # Optional flags for the emu abundance command

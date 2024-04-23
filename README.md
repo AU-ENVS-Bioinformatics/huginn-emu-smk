@@ -9,7 +9,15 @@ This is the Huginn version of the EMU snakemake workflow. Basically, it's just t
 3. Download the RDS file with a phyloseq object ready to analyze.  
 
 ```bash
-snakemake --use-conda -n
-snakemake --use-conda -c100
+conda activate snakemake
+snakemake --use-conda -n --conda-prefix /software/emu-snakemake
+snakemake --use-conda -c50 --conda-prefix /software/emu-snakemake
 ```
 
+If you want to keep intermediate output (such as unclassified sequences in a separate fasta or the alignments) use instead:
+
+```bash
+conda activate snakemake
+snakemake --use-conda -n --conda-prefix /software/emu-snakemake --notemp
+snakemake --use-conda -c50 --conda-prefix /software/emu-snakemake --notemp
+```
