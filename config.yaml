@@ -16,6 +16,9 @@ ranks: ["superkingdom", "phylum", "class", "order", "family", "genus", "species"
 # UNITE (all)
 #database: "/Databases/emu-prebuilt/unite-all"
 #ranks: ["superkingdom", "phylum", "class", "order", "family", "genus", "species"]
+# RDP 
+#database: "/Databases/emu-prebuilt/rdp"
+#ranks: ["genus", "family", "order", "class", "phylum", "clade", "superkingdom", "subspecies", "species subgroup", "species group"]
 # Number of threads per sample. It will determine the parallelization of the pipeline
 threads_per_sample: 5
 # Optional flags for the emu abundance command
